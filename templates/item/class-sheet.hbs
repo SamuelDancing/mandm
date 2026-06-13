@@ -1,0 +1,55 @@
+{{! This template is a fallback for when items don't have more specific templates. }}
+{{! Generally, you'll want to make more specific templates when possible. }}
+<form class='{{cssClass}}' autocomplete='off'>
+  <header class='sheet-header'>
+    <img
+      class='profile-img'
+      src='{{item.img}}'
+      data-edit='img'
+      title='{{item.name}}'
+    />
+    <div class='header-fields'>
+      <h1 class='charname'><input
+          name='name'
+          type='text'
+          value='{{item.name}}'
+          placeholder='Name'
+        /></h1>
+    </div>
+  </header>
+
+  {{! Sheet Tab Navigation }}
+  <nav class='sheet-tabs tabs' data-group='primary'>
+    <a class='item' data-tab='description'>Description</a>
+  </nav>
+
+  {{! Sheet Body }}
+  <section class='sheet-body'>
+
+    {{! Description Tab }}
+    <div class='tab grid grid-2col' style="min-height: 100%; height:fit-content" data-group='primary' data-tab='description'>
+      <ul style="list-style: none;">
+        <li>+2 <select name="system.asi1">{{selectOptions system.scores selected=system.asi1}}</select> or <select name="system.asi2">{{selectOptions system.scores selected=system.asi2}}</select></li>
+        <li>Hit Dice: <select name="system.hit_die">{{selectOptions system.hit_die_choice selected=system.hit_die}}</select></li>
+        <li class="editorboxformat">Skills (+Int Mod, Min: +0): {{editor system.skills target="system.skills" engine="prosemirror" button=true}}</li>
+        <li>Saving Throws: <br><select name="system.save1">{{selectOptions system.scores selected=system.save1}}</select> OR <select name="system.save2">{{selectOptions system.scores selected=system.save2}}</select> + 1 of your Choice</li>
+        <li>Weapon Proficiencies (Pick three): <input type="text" name="system.weapon_profs" value="{{system.weapon_profs}}"></li>
+        <li>Armor Proficiencies: <input type="text" name="system.armor_profs" value="{{system.armor_profs}}"></li>
+        <li>Class Initiative Modifier: <select name="system.cam1">{{selectOptions system.scores selected=system.cam1}}</select> or <select name="system.cam2">{{selectOptions system.scores selected=system.cam2}}</select> <input type="checkbox" name="system.both_scores" {{checked system.both_scores}}> (and)</li>
+        <li>Archetype Requirement: <input type="text" name="system.archetype_requirement" value="{{system.archetype_requirement}}"></li>
+        <li>Resource Name: <input name="system.resource_name" type="text" value="{{system.resource_name}}"></li>
+      </ul>
+      <div class="editorboxformat">
+      {{! Editors must receive enriched text data from getData to properly handle rolls }}
+      {{editor
+        enrichedDescription
+        target='system.description'
+        engine='prosemirror'
+        button=true
+        editable=editable
+      }}</div>
+    </div>
+      {{! As you add new fields, add them in here! }}
+    </div>
+  </section>
+</form>

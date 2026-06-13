@@ -1,0 +1,50 @@
+<ol class="items-list effects-list">
+    <li class="items-header flexrow">
+      <h3 class="item-name effect-name flexrow">Effects</h3>
+      <div class="item-controls effect-controls flexrow">
+        <a class="effect-control" data-action="create" title="{{localize 'DOCUMENT.Create' type="Effect"}}">
+          <i class="fas fa-plus"></i> {{localize "DOCUMENT.New" type="Effect"}}
+        </a>
+      </div>
+    </li>
+    {{#each effects as |effect|}}
+      <li class="item effect flexrow" data-effect-id="{{effect._id}}" data-parent-id="{{effect.system.parentId}}">
+        <a class="effect-control" data-action="edit" title="{{localize 'DOCUMENT.Update' type="Effect"}}" style="background: #DDD;
+    padding: 1px 4px;
+    border: 1px solid var(--color-border-dark-tertiary);
+    border-radius: 2px;
+    white-space: nowrap;">
+      <div class='item-name effect-name flexrow'>
+        <div class='item-image'>
+            <img
+              src='{{effect.img}}'
+              title='{{effect.name}}'
+              width='24'
+              height='24'
+            />
+        </div>
+        <h4 style="text-wrap: wrap;">{{effect.name}}</h4>
+      </div>
+          </a>
+          <!--
+        <div class="item-name effect-name flexrow">
+          <img class="item-image" src="{{effect.img}}"/>
+          <h4 style="text-wrap: wrap;">{{effect.name}}</h4>
+        </div>
+        -->
+        <div class="item-controls effect-controls flexrow">
+          <a class="effect-control" data-action="toggle" title="Toggle">
+            <i class="fas {{#if effect.disabled}}fa-check{{else}}fa-times{{/if}}"></i>
+          </a>
+          <!--
+          <a class="effect-control" data-action="edit" title="{{localize 'DOCUMENT.Update' type="Effect"}}">
+            <i class="fas fa-edit"></i>
+          </a>
+          -->
+          <a class="effect-control" data-action="delete" title="{{localize 'DOCUMENT.Delete' type="Effect"}}">
+            <i class="fas fa-trash"></i>
+          </a>
+        </div>
+      </li>
+    {{/each}}
+</ol>

@@ -1,0 +1,55 @@
+{{! This template is a fallback for when items don't have more specific templates. }}
+{{! Generally, you'll want to make more specific templates when possible. }}
+<form class='{{cssClass}}' autocomplete='off'>
+  <header class='sheet-header'>
+    <img
+      class='profile-img'
+      src='{{item.img}}'
+      data-edit='img'
+      title='{{item.name}}'
+    />
+    <div class='header-fields'>
+      <h1 class='charname'><input
+          name='name'
+          type='text'
+          value='{{item.name}}'
+          placeholder='Name'
+        /></h1>
+    </div>
+  </header>
+
+  {{! Sheet Tab Navigation }}
+  <nav class='sheet-tabs tabs' data-group='primary'>
+    <a class='item' data-tab='description'>Description</a>
+  </nav>
+
+  {{! Sheet Body }}
+  <section class='sheet-body'>
+
+    {{! Description Tab }}
+    <div class='tab grid grid-2col' style="min-height: 100%; height:fit-content" data-group='primary' data-tab='description'>
+      {{! Editors must receive enriched text data from getData to properly handle rolls }}
+      <ul style="list-style: none;">
+        <li>Ability Score Increase: <input type="text" name="system.asi" value="{{system.asi}}"></li>
+        <li>Base HP: <select name="system.base_hp">{{selectOptions system.hp-choice selected=system.base_hp}}</select></li>
+        <li>Movement Speed: {{numberInput system.speed class="numberInput" name="system.speed"}} ft.</li>
+        <li>Size: <select name="system.size">{{selectOptions system.size-choice selected=system.size}}</select></li>
+        <li>Creature Type(s):</li>
+        <li><select name="system.type1">{{selectOptions system.type-choice selected=system.type1}}</select></li>
+        <li><select name="system.type2">{{selectOptions system.type-choice selected=system.type2}}</select></li>
+        <li><select name="system.type3">{{selectOptions system.type-choice selected=system.type3}}</select></li>
+        <li>Languages: <input type="text" name="system.languages", value="{{system.languages}}"></li>
+      </ul>
+      <div class="editorboxformat">
+      {{editor
+        enrichedDescription
+        target='system.description'
+        engine='prosemirror'
+        button=true
+        editable=editable
+      }}</div>
+    </div>
+      {{! As you add new fields, add them in here! }}
+    </div>
+  </section>
+</form>

@@ -1,0 +1,185 @@
+<form class="{{cssClass}} {{actor.type}} flexcol" autocomplete="off">
+
+  {{!-- Sheet Header --}}
+  <header class="sheet-header">
+    <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/>
+    <div class="header-fields">
+      <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name"/></h1>
+    </div>
+  </header>
+    <div class="grid grid-2col" style="grid-auto-columns:100%">
+          <ul style="list-style: none">
+            <li>{{system.size_dis}} {{#each system.types as |type|}}{{type}}, {{/each}}<select name="system.role">{{selectOptions system.role_types selected=system.role}}</select></li>
+            <li>HP:{{numberInput system.hp.value class="numberInput" name="system.hp.value"}}/{{system.hp.max}} (Temp: {{numberInput system.hp_temp class="numberInput" name="system.hp_temp"}}) ({{system.level}}d{{system.hit_die.type}} + {{system.hp_con_boost}}), AC: {{system.ac}}</li>
+            <li>Vulnerabilities, Resistances & Immunities:</li>
+            <li>(V) {{system.vul_dis}}</li>
+            <li>(R) {{system.res_dis}}</li>
+            <li>(I) {{system.imm_dis}}</li>
+            <li>Damage Threshold: {{numberInput system.threshold class="numberInput" name="system.threshold"}}</li>
+            <li>Weakness: <input type="text" style="width: auto", name="system.weakness", value="{{system.weakness}}"></li>
+            <li>Speed: {{system.speed.land}} ft., Swim: {{system.speed.swim}} ft., Climb: {{system.speed.climb}} ft., Burrow: {{system.speed.burrow}} ft., Fly: {{system.speed.fly}}{{#if system.speed.hover}} (Hover){{/if}} ft.</li>
+            <li>Initiative Recovery: {{numberFormat system.action_up sign=true}}, Initiative: {{numberInput system.actions.value class="numberInput" name="system.actions.value"}}</li>
+            <br>
+            <li>STR {{system.str}}, (<span class="rollable" data-roll="@d20+@str_mod+@skill_mod" data-label="Raw Strength Check">{{numberFormat system.str_mod sign=true}}</span>), DEX {{system.dex}} (<span class="rollable" data-roll="@d20+@dex_mod+@skill_mod" data-label="Raw Dexterity Check">{{numberFormat system.dex_mod sign=true}}</span>), CON {{system.con}} (<span class="rollable" data-roll="@d20+@con_mod+@skill_mod" data-label="Raw Constitution Check">{{numberFormat system.con_mod sign=true}}</span>)</li>
+            <li>INT {{system.int}} (<span class="rollable" data-roll="@d20+@int_mod+@skill_mod" data-label="Raw Intelligence Check">{{numberFormat system.int_mod sign=true}}</span>), WIS {{system.wis}} (<span class="rollable" data-roll="@d20+@wis_mod+@skill_mod" data-label="Raw Wisdom Check">{{numberFormat system.wis_mod sign=true}}</span>), CHA {{system.cha}} (<span class="rollable" data-roll="@d20+@cha_mod+@skill_mod" data-label="Raw Charisma Check">{{numberFormat system.cha_mod sign=true}}</span>)</li>
+            <li>Saves:
+                {{#if system.proficiencies.strength}}Strength: <span class="rollable" data-roll="@d20+@str_save" data-label="Strength Saving Throw">{{numberFormat system.str_save sign=true}}</span>, {{/if}}
+                {{#if system.proficiencies.dexterity}}Dexterity: <span class="rollable" data-roll="@d20+@dex_save" data-label="Dexterity Saving Throw">{{numberFormat system.dex_save sign=true}}</span>, {{/if}}
+                {{#if system.proficiencies.constitution}}Constitution: <span class="rollable" data-roll="@d20+@con_save" data-label="Constitution Saving Throw">{{numberFormat system.con_save sign=true}}</span>{{/if}}
+                {{#if system.proficiencies.intelligence}}Intelligence: <span class="rollable" data-roll="@d20+@int_save" data-label="Intelligence Saving Throw">{{numberFormat system.int_save sign=true}}</span>, {{/if}}
+                {{#if system.proficiencies.wisdom}}Wisdom: <span class="rollable" data-roll="@d20+@wis_save" data-label="Wisdom Saving Throw">{{numberFormat system.wis_save sign=true}}</span>, {{/if}}
+                {{#if system.proficiencies.charisma}}Charisma: <span class="rollable" data-roll="@d20+@cha_save" data-label="Charisma Saving Throw">{{numberFormat system.cha_save sign=true}}</span>{{/if}}
+                </li>
+            <li>Skills:
+                {{#if system.proficiencies.acrobatics}}<span class="rollable" data-roll="@d20+@skill_mod+@acrobatics", data-label="Acrobatics Check">Acro: {{numberFormat system.acrobatics sign=true}}</span>, {{/if}}
+                {{#if system.proficiencies.arcana}}<span class="rollable" data-roll="@d20+@skill_mod+@arcana", data-label="Arcana Check">Arca: {{numberFormat system.arcana sign=true}}</span>, {{/if}}
+                {{#if system.proficiencies.athletics}}<span class="rollable" data-roll="@d20+@skill_mod+@athletics", data-label="Athletics Check">Athl: {{numberFormat system.athletics sign=true}}</span>, {{/if}}
+                {{#if system.proficiencies.deception}}<span class="rollable" data-roll="@d20+@skill_mod+@deception", data-label="Deception Check">Dece: {{numberFormat system.deception sign=true}}</span>, {{/if}}
+                {{#if system.proficiencies.intimidation}}<span class="rollable" data-roll="@d20+@skill_mod+@intimidation", data-label="Intimidation Check">Inti: {{numberFormat system.deception sign=true}}</span>, {{/if}}
+                {{#if system.proficiencies.medicine}}<span class="rollable" data-roll="@d20+@skill_mod+@medicine", data-label="Medicine Check">Medi: {{numberFormat system.medicine sign=true}}</span>, {{/if}}
+                {{#if system.proficiencies.nurture}}<span class="rollable" data-roll="@d20+@skill_mod+@nurture", data-label="Nurture Check">Nurt: {{numberFormat system.nurture sign=true}}</span>, {{/if}}
+                {{#if system.proficiencies.occultism}}<span class="rollable" data-roll="@d20+@skill_mod+@occultism", data-label="Occultism Check">Occu: {{numberFormat system.occultism sign=true}}</span>, {{/if}}
+                {{#if system.proficiencies.perception}}<span class="rollable" data-roll="@d20+@skill_mod+@perception", data-label="Perception Check">Perc: {{numberFormat system.perception sign=true}}</span>, {{/if}}
+                {{#if system.proficiencies.performance}}<span class="rollable" data-roll="@d20+@skill_mod+@performance", data-label="Performance Check">Perf: {{numberFormat system.athletics sign=true}}</span>, {{/if}}
+                {{#if system.proficiencies.persuasion}}<span class="rollable" data-roll="@d20+@skill_mod+@persuasion", data-label="Persuasion Check">Pers: {{numberFormat system.persuasion sign=true}}</span>, {{/if}}
+                {{#if system.proficiencies.religion}}<span class="rollable" data-roll="@d20+@skill_mod+@religion", data-label="Religion Check">Reli: {{numberFormat system.religion sign=true}}</span>, {{/if}}
+                {{#if system.proficiencies.society}}<span class="rollable" data-roll="@d20+@skill_mod+@society", data-label="Society Check">Soci: {{numberFormat system.society sign=true}}</span>, {{/if}}
+                {{#if system.proficiencies.stealth}}<span class="rollable" data-roll="@d20+@skill_mod+@stealth", data-label="Stealth Check">Stea: {{numberFormat system.stealth sign=true}}</span>, {{/if}}
+                {{#if system.proficiencies.survival}}<span class="rollable" data-roll="@d20+@skill_mod+@survival", data-label="Survival Check">Surv: {{numberFormat system.survival sign=true}}</span>, {{/if}}
+                {{#if system.proficiencies.thievery}}<span class="rollable" data-roll="@d20+@skill_mod+@thievery", data-label="Thievery Check">Thie: {{numberFormat system.thievery sign=true}}</span>{{/if}}
+                {{#each system.other_profs as |i|}} {{i}}{{/each}}</li>
+            <li>Senses:{{#each system.sense as |i|}} {{i}}{{/each}}</li>
+            <li>Proficiency Bonus: {{numberFormat system.pb sign=true}}</li>
+          </ul>
+        </td>
+        <td>
+          <ul style="list-style: none;">
+            <li>{{radioBoxes "system.adv" system.adv_choice checked=system.adv}}</li>
+            <li>Actions: {{system.mal}}</li>
+            <li>Atk (W): {{numberFormat system.wab sign=true}}, Dmg (W): {{numberFormat system.wdb sign=true}} (F: {{numberFormat system.wfdb sign=true}})</li>
+            <li>Atk (S): {{numberFormat system.sab sign=true}}, Dmg (S): {{numberFormat system.sdb sign=true}}, Spell DC: {{system.ssdc}}</li>
+            <li>{{> "systems/mandm/templates/actor/parts/actor-actions.hbs"}}</li>
+            <li><br>Abilities:</li>
+            <li>{{> "systems/mandm/templates/actor/parts/actor-feats.hbs"}}</li>
+          </ul></div>
+
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="sheet-tabs tabs" data-group="primary">
+    {{!-- Default tab is specified in actor-sheet.mjs --}}
+    <a class="item" data-tab="core">Core</a>
+    <a class="item" data-tab="description">Misc</a>
+    <a class="item" data-tab="config">Config</a>
+  </nav>
+
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+
+    {{!-- Core Tab --}}
+    <div class="tab core" data-group="primary" data-tab="core">
+      <table>
+        <tr>
+          <td>
+            <div>
+              <ul style="list-style-type:none">
+                <li>Persistent Damage:<br> {{system.per_dis}}</li>
+                <li>Conditions/Afflictions:<br>{{> "systems/mandm/templates/actor/parts/actor-effects.hbs"}}</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <div>
+              Inventory:{{> "systems/mandm/templates/actor/parts/actor-items.hbs"}}
+            </div>
+          </td>
+          <td>
+            <div>
+              <ul style="list-style: none;">
+                <li>Slots</li>
+                <li><input class="numberInput", name="system.slots.current", type="number", value="{{system.slots.current}}", max="{{system.slots.max}}">/{{system.slots.max}}</li><br>
+                <li>Pact</li>
+                <li><input class="numberInput", name="system.pact_slots.current", type="number", value="{{system.pact_slots.current}}", max="{{system.pact_slots.max}}">/{{system.pact_slots.max}}</li><br>
+                <li>Spells</li>
+                <li>{{> "systems/mandm/templates/actor/parts/actor-spells.hbs"}}</li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+       </table>
+    </div>
+
+    {{!-- Biography Tab --}}
+    <div class="tab biography editorboxformat" data-group="primary" data-tab="description">
+      {{!-- Editors must receive enriched text data from getData to properly handle rolls --}}
+      {{editor enrichedBiography target="system.biography" engine="prosemirror" button=true editable=editable}}
+      <br><br>
+    </div>
+
+    {{!-- Config Tab --}}
+    <div class="tab config" data-group="primary" data-tab="config">
+      <ul style="list-style-type:none" class="grid-6col grid">
+      <li class="grid-span-6"></li>
+        <li><select name="system.type1">{{selectOptions system.type-choice selected=system.type1}}</select></li>
+        <li><select name="system.type2">{{selectOptions system.type-choice selected=system.type2}}</select></li>
+        <li><select name="system.type3">{{selectOptions system.type-choice selected=system.type3}}</select></li>
+        <li><select name="system.type4">{{selectOptions system.type-choice selected=system.type4}}</select></li>
+      <li>Level {{numberInput system.level class="numberInput" name="system.level"}}</li>
+      <li>Size <select name="system.size">{{selectOptions system.size_sel selected=system.size}}</select></li>
+      <li class="grid-span-6" style="text-align: center;"><br>(Vulnerabilities/Resistances/Immunities) <a class="new-VRI"><i class='fas fa-plus'></i>Add New</a></li>
+        {{#each system.VRI as |i key|}}<li class="grid-span-2">
+        <select name="system.VRI.{{key}}.choice">  {{selectOptions ../system.VRIC selected=i.choice}}</select> 
+        <input type="text" style="width: auto", name="system.VRI.{{key}}.type", value="{{i.type}}"> <input type="text" title="Use 'pb' or 'level' to reference those stats. Otherwise, Int only." style="width: auto", name="system.VRI.{{key}}.value", value="{{i.value}}">
+        <a class="remove-VRI" data-key="{{key}}"><i class='fas fa-trash'></i></a></li>{{/each}}
+      <li class="grid-span-6">Speeds:</li>
+      <li>(Land) {{numberInput system.speed.land class="numberInput" name="system.speed.land"}}</li>
+      <li>(Swim) {{numberInput system.speed.swim class="numberInput" name="system.speed.swim"}}</li>
+      <li>(Climb) {{numberInput system.speed.climb class="numberInput" name="system.speed.climb"}}</li>
+      <li>(Burrow) {{numberInput system.speed.burrow class="numberInput" name="system.speed.burrow"}}</li>
+      <li>(Fly) {{numberInput system.speed.fly class="numberInput" name="system.speed.fly"}}</li>
+      <li>(Hover) <input type="checkbox" name="system.speed.hover" {{checked system.speed.hover}}></li>
+      <li>Str Base <input class="numberInput", name="system.abilities.str_base", type="number", value="{{system.abilities.str_base}}"></li>
+      <li>Dex Base <input class="numberInput", name="system.abilities.dex_base", type="number", value="{{system.abilities.dex_base}}"></li>
+      <li>Con Base <input class="numberInput", name="system.abilities.con_base", type="number", value="{{system.abilities.con_base}}"></li>
+      <li>Int Base <input class="numberInput", name="system.abilities.int_base", type="number", value="{{system.abilities.int_base}}"></li>
+      <li>Wis Base <input class="numberInput", name="system.abilities.wis_base", type="number", value="{{system.abilities.wis_base}}"></li>
+      <li>Cha Base <input class="numberInput", name="system.abilities.cha_base", type="number", value="{{system.abilities.cha_base}}"></li>
+      <li>Atk Mod {{numberInput system.attack_mod class="numberInput" name="system.attack_mod"}}</li>
+      <li>Save Mod {{numberInput system.save_mod class="numberInput" name="system.save_mod"}}</li>
+      <li>Skill Mod {{numberInput system.skill_mod class="numberInput" name="system.skill_mod"}}</li>
+      <li>Max Slots {{numberInput system.slots.max class="numberInput" name="system.slots.max"}}</li>
+      <li>Action Mod {{numberInput system.action_mod class="numberInput" name="system.action_mod"}}</li>
+      <li>Hit Die Type {{numberInput system.hit_die.type class="numberInput" name="system.hit_die.type"}}</li>
+      <li class="grid-span-6">Proficiencies: (Toggle)</li>
+      <li>Strength <input type="checkbox" name="system.proficiencies.strength" {{checked system.proficiencies.strength}}></li>
+      <li>Dexterity <input type="checkbox" name="system.proficiencies.dexterity" {{checked system.proficiencies.dexterity}}></li>
+      <li>Constitution <input type="checkbox" name="system.proficiencies.constitution" {{checked system.proficiencies.constitution}}></li>
+      <li>Intelligence <input type="checkbox" name="system.proficiencies.intelligence" {{checked system.proficiencies.intelligence}}></li>
+      <li>Wisdom <input type="checkbox" name="system.proficiencies.wisdom" {{checked system.proficiencies.wisdom}}></li>
+      <li>Charisma <input type="checkbox" name="system.proficiencies.charisma" {{checked system.proficiencies.charisma}}></li>
+      <li class="grid-span-6"><br>(Skills)</li>
+      <li>Athletics <input type="checkbox" name="system.proficiencies.athletics" {{checked system.proficiencies.athletics}}></li>
+      <li>Acrobatics <input type="checkbox" name="system.proficiencies.acrobatics" {{checked system.proficiencies.acrobatics}}></li>
+      <li>Arcana <input type="checkbox" name="system.proficiencies.arcana" {{checked system.proficiencies.arcana}}></li>
+      <li>Deception <input type="checkbox" name="system.proficiencies.deception" {{checked system.proficiencies.deception}}></li>
+      <li>Intimidation <input type="checkbox" name="system.proficiencies.intimidation" {{checked system.proficiencies.intimidation}}></li>
+      <li>Medicine <input type="checkbox" name="system.proficiencies.medicine" {{checked system.proficiencies.medicine}}></li>
+      <li>Nurture <input type="checkbox" name="system.proficiencies.nurture" {{checked system.proficiencies.nurture}}></li>
+      <li>Occultism <input type="checkbox" name="system.proficiencies.occultism" {{checked system.proficiencies.occultism}}></li>
+      <li>Perception <input type="checkbox" name="system.proficiencies.perception" {{checked system.proficiencies.perception}}></li>
+      <li>Performance <input type="checkbox" name="system.proficiencies.performance" {{checked system.proficiencies.performance}}></li>
+      <li>Persuasion <input type="checkbox" name="system.proficiencies.persuasion" {{checked system.proficiencies.persuasion}}></li>
+      <li>Religion <input type="checkbox" name="system.proficiencies.religion" {{checked system.proficiencies.religion}}></li>
+      <li>Society <input type="checkbox" name="system.proficiencies.society" {{checked system.proficiencies.society}}></li>
+      <li>Stealth <input type="checkbox" name="system.proficiencies.stealth" {{checked system.proficiencies.stealth}}></li>
+      <li>Survival <input type="checkbox" name="system.proficiencies.survival" {{checked system.proficiencies.survival}}></li>
+      <li>Thievery <input type="checkbox" name="system.proficiencies.thievery" {{checked system.proficiencies.thievery}}></li>
+      <li class="grid-span-3">(Languages + Extra) <a class="new-prof"><i class='fas fa-plus'></i>Add New</a>
+        {{#each system.other_profs as |i key|}}<br><input style="width:90%" type="text" name="system.other_profs.{{key}}" value="{{i}}"><a class="remove-prof" data-key="{{key}}"><i class='fas fa-trash'></i></a>{{/each}}
+      </li>
+      <li class="grid-span-3"><span title="Assumptions: P Sight: 600 ft., Imp Scent: 15 ft., Imp Tremor: 10 ft., Imp Hear, 60 ft.">(Senses)</span> <a class="new-sense"><i class='fas fa-plus'></i>Add New</a>
+        {{#each system.sense as |i key|}}<br><input style="width:90%" type="text" name="system.sense.{{key}}" value="{{i}}"><a class="remove-sense" data-key="{{key}}"><i class='fas fa-trash'></i></a>{{/each}}
+      </li>
+        
+      </ul>
+    </div>
+  </section>
+</form>

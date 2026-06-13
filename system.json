@@ -1,0 +1,407 @@
+{
+  "id": "mandm",
+  "title": "Mages & Mansions",
+  "description": "Mages & Mansions: A Limitless System is a d20 system where every choice matters.",
+  "authors": [
+    {
+      "name": "Samuel Gallew",
+      "discord": "SamuelDancing"
+    }
+  ],
+  "license": "LICENSE.txt",
+  "readme": "README.md",
+  "changelog": "CHANGELOG.md",
+  "version": "1.0.0",
+  "compatibility": {
+    "minimum": 14,
+    "verified": "14",
+    "maximum": 14
+  },
+  "esmodules": ["module/mandm.mjs"],
+  "styles": ["css/mandm.css"],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+  "packs": [
+    {
+      "name": "ancestries",
+      "label": "Ancestries",
+      "system": "mandm",
+      "path": "packs/ancestries",
+      "type": "Item"
+    },
+    {
+      "name": "classes",
+      "label": "Classes",
+      "system": "mandm",
+      "path": "packs/classes",
+      "type": "Item"
+    },
+    {
+      "name": "backgrounds",
+      "label": "Backgrounds",
+      "system": "mandm",
+      "path": "packs/backgrounds",
+      "type": "Item"
+    },
+    {
+      "name": "feats",
+      "label": "Feats",
+      "system": "mandm",
+      "path": "packs/feats",
+      "type": "Item"
+    },
+    {
+      "name": "items",
+      "label": "Items",
+      "system": "mandm",
+      "path": "packs/items",
+      "type": "Item"
+    },
+    {
+      "name": "afflictionsconditions",
+      "label": "Afflictions/Conditions",
+      "system": "mandm",
+      "path": "packs/afflictionsconditions",
+      "type": "Item"
+    },
+    {
+      "name": "spells",
+      "label": "Spells",
+      "system": "mandm",
+      "path": "packs/spells",
+      "type": "Item"
+    },
+    {
+      "name": "monsterfeats",
+      "label": "Monster Abilities and Feats",
+      "system": "mandm",
+      "path": "packs/monster-abilities-and-feats",
+      "type": "Item"
+    },
+    {
+      "name": "monsters",
+      "label": "Monsters",
+      "system": "mandm",
+      "path": "packs/monsters",
+      "type": "Actor"
+    },
+    {
+      "name": "commontables",
+      "label": "M&M Tables",
+      "system": "mandm",
+      "path": "packs/common-tables",
+      "type": "RollTable"
+    }
+  ],
+  "packFolders": [
+    {
+      "name": "M&M Core Content",
+      "color": "#d28cf3",
+      "sorting": "m",
+      "packs": [
+        "ancestries",
+        "backgrounds",
+        "classes",
+        "feats",
+        "items",
+        "spells",
+        "monsterfeats",
+        "monsters",
+        "afflictionsconditions",
+        "commontables"
+      ]
+  }
+  ],
+  "socket": true,
+  "grid": {
+    "distance": 5,
+    "units": "ft"
+  },
+  "primaryTokenAttribute": "hp",
+  "secondaryTokenAttribute": "actions",
+  "documentTypes" :
+  {
+    "Actor": {
+      "types": ["actor", "npc"],
+      "templates": {
+        "base": {
+          "biography": "",
+          "hp": {
+            "value": 0,
+            "max": 0,
+            "rolled": 0
+          },
+          "hit_die": {
+            "value": 0,
+            "max": 0,
+            "type": 4
+          },
+          "hp_temp": 0,
+          "level": 1,
+          "proficiencies": {
+            "athletics": false,
+            "acrobatics": false,
+            "stealth": false,
+            "thievery": false,
+            "arcana": false,
+            "occultism": false,
+            "religion": false,
+            "survival": false,
+            "medicine": false,
+            "nurture": false,
+            "perception": false,
+            "society": false,
+            "deception": false,
+            "intimidation": false,
+            "performance": false,
+            "persuasion": false,
+            "strength": false,
+            "dexterity": false,
+            "constitution": false,
+            "intelligence": false,
+            "wisdom": false,
+            "charisma": false
+          },
+          "other_profs": {},
+          "actions": {
+            "value": 0,
+            "max": 0
+          },
+          "resistance": {},
+          "immunity": [],
+          "vulnerability": {},
+          "persistent_damage": {},
+          "speed": {
+            "land": 30,
+            "swim": 0,
+            "burrow": 0,
+            "climb": 0,
+            "fly": 0,
+            "hover": false
+          },
+          "sense": {},
+          "size": 0,
+          "types": [],
+          "type-choice": {"None":"None", "Abberation":"Abberation", "Beast":"Beast", "Celestial":"Celestial", "Construct":"Construct", "Dragon":"Dragon", "Elemental":"Elemental", "Fey":"Fey", "Fiend":"Fiend", "Humanoid":"Humanoid", "Plant":"Plant", "Undead":"Undead"},
+          "abilities": {
+            "str_base": 10,
+            "dex_base": 10,
+            "con_base": 10,
+            "int_base": 10,
+            "wis_base": 10,
+            "cha_base": 10
+          },
+        "slots": {
+          "max": 0,
+          "current": 0
+        },
+        "pact_slots": {
+          "max": 0,
+          "current": 0
+        },
+        "attack_mod": 0,
+        "save_mod": 0,
+        "skill_mod": 0,
+        "action_mod": 0,
+        "dc_mod": 0,
+        "hp_mod": 0,
+        "adv": "norm",
+        "adv_choice": {"dis":"Disadvantage", "norm":"Normal", "adv":"Advantage"}
+        }
+      },
+      "actor": {
+        "templates": ["base"],
+        "ancestry": "None",
+        "background": "None",
+        "class": "None",
+        "death_saves": {
+          "failure": 0,
+          "success": 0
+        },
+        "inspiration": 0,
+        "xp": 0,
+        "resource": {
+          "primary": {
+            "name": "Resource 1",
+            "value": 0}
+          },
+        "appearance": "",
+        "bonds": "",
+        "flaws": "",
+        "deity": "",
+        "backstory": "",
+        "money": {
+          "cp": 0,
+          "sp": 0,
+          "gp": 0,
+          "pp": 0
+        },
+        "lists": {
+          "arcane": false,
+          "divine": false,
+          "occult": false,
+          "primal": false
+        }
+      },
+      "npc": {
+        "templates": ["base"],
+        "weakness": "None",
+        "threshold": 0,
+        "role": "Bruiser",
+        "role_types": {"Bruiser":"Bruiser", "Skirmisher":"Skirmisher", "Tank":"Tank", "Trapper":"Trapper", "Caster":"Spellcaster", "Spotter":"Spotter", "Healer":"Healer", "Buffer":"Buffer", "Debuffer":"Debuffer"},
+        "type1": "None",
+        "type2": "None",
+        "type3": "None",
+        "type4": "None",
+        "VRI": {},
+        "VRIC": {"Resistance":"Resistance", "Immunity":"Immunity", "Vulnerability":"Vulnerability"}
+      }
+    },
+    "Item": {
+      "types": ["feat", "item", "spell", "class", "ancestry", "background", "affliction"],
+      "templates": {
+        "base": {
+          "description": "",
+          "special": ""
+        },
+        "active": {
+          "actions": 0,
+          "duration": "None",
+          "damage": {"0":"0"},
+          "crit": {"0":"0"},
+          "roll": " ",
+          "active": false,
+          "target": "",
+          "trigger": "",
+          "range": "",
+          "resource_cost": "",
+          "save_target": "Strength",
+          "save_source": "@actor.ssdc",
+          "force_display": false,
+          "active_options": {
+            " ":"None",
+            "watt":"Weapon Attack",
+            "satt":"Spell Attack",
+            "save":"Saving Throw",
+            "damage":"Direct Damage/Heal"
+          },
+          "save_options": {
+            "ssdc":"Spell Save DC",
+            "str":"Strength",
+            "dex":"Dexterity",
+            "con":"Constitution",
+            "int":"Intelligence",
+            "wis":"Wisdom",
+            "cha":"Charisma",
+            "custom": "Custom"
+          },
+          "target_options": {
+            "str":"Strength",
+            "dex":"Dexterity",
+            "con":"Constitution",
+            "int":"Intelligence",
+            "wis":"Wisdom",
+            "cha":"Charisma"
+          },
+          "roll_desc": "",
+          "custom_dc": "10",
+          "roll_mod": ""
+        },
+        "traits": {
+          "t_main": "Edge",
+          "trait": {},
+          "trait_list": ["Edge", "Burn", "Blast", "Bleed", "Utility"]
+        }
+      },
+      "item": {
+        "templates": ["base", "traits", "active"],
+        "weight": 0,
+        "size": "Miniscule",
+        "value": 0,
+        "complexity": 0,
+        "material": "None",
+        "equipped": false,
+        "quantity": 1
+      },
+      "class": {
+        "templates": ["base"],
+        "asi1": "Strength",
+        "asi2": "None",
+        "hit_die": "4",
+        "hit_die_choice": {"4":"d4", "6":"d6", "8":"d8", "10":"d10", "12":"d12"},
+        "skills": "",
+        "save1": "Strength",
+        "save2": "None",
+        "scores": {"Strength":"Strength", "Dexterity":"Dexterity", "Constitution":"Constitution", "Intelligence":"Intelligence", "Wisdom":"Wisdom", "Charisma":"Charisma", "None":"None"},
+        "prof_options": "",
+        "armor_profs": "",
+        "weapon_profs": "",
+        "archetype_requirement": "",
+        "resource_name": "",
+        "both_scores": false,
+        "cam1": "Strength",
+        "cam2": "None",
+        "roll": ""
+      },
+      "ancestry": {
+        "templates": ["base"],
+        "asi": "+2 ???, +2 Pick",
+        "base_hp": "4",
+        "speed": 30,
+        "size": "Medium",
+        "type1": "Humanoid",
+        "type2": "None",
+        "type3": "None",
+        "languages": "",
+        "hp-choice": {"4":"4", "6":"6", "8":"8", "10":"10", "12":"12"},
+        "size-choice": {"Miniscule":"Miniscule", "Tiny":"Tiny", "Small":"Small", "Medium":"Medium", "Large":"Large", "Huge":"Huge", "Gargantuan":"Gargantuan", "Colossal":"Colossal"},
+        "type-choice": {"None":"None", "Abberation":"Abberation", "Beast":"Beast", "Celestial":"Celestial", "Construct":"Construct", "Dragon":"Dragon", "Elemental":"Elemental", "Fey":"Fey", "Fiend":"Fiend", "Humanoid":"Humanoid", "Plant":"Plant", "Undead":"Undead"},
+        "roll": ""
+      },
+      "background": {
+        "templates": ["base"],
+        "asi": "Strength",
+        "asi-second": "Dexterity",
+        "scores": ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"],
+        "equipment": "",
+        "profs": "",
+        "feat": "",
+        "roll": ""
+      },
+      "spell": {
+        "templates": ["base", "traits", "active"],
+        "lists": {"arcane": false, "divine": false, "occult": false, "primal": false},
+        "school": "Abjuration",
+        "tier": "Cantrip",
+        "components": {
+          "v": false,
+          "s": false,
+          "m": false,
+          "material": "",
+          "f": false,
+          "c": false
+        },
+        "prepared": "No",
+        "schools": {"Abjuration":"Abjuration", "Conjuration":"Conjuration", "Divination":"Divination", "Enchantment":"Enchantment", "Evocation":"Evocation", "Illusion":"Illusion", "Necromancy":"Necromancy", "Transmutation":"Transmutation"},
+        "tiers": {"Cantrip":"Cantrip", "1st":"1st", "2nd":"2nd", "3rd":"3rd", "4th":"4th", "5th":"5th", "6th":"6th", "7th":"7th", "8th":"8th", "9th":"9th", "10th":"10th"}
+      },
+      "feat": {
+        "templates": ["base", "traits", "active"],
+        "source": "misc",
+        "restriction": "",
+        "prerequisite": ""
+      },
+      "affliction": {
+        "templates": ["base", "traits"],
+        "source": "",
+        "dc": 10,
+        "roll": ""
+      }
+    }
+  }
+}

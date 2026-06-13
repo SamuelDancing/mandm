@@ -1,0 +1,60 @@
+{{! This template is a fallback for when items don't have more specific templates. }}
+{{! Generally, you'll want to make more specific templates when possible. }}
+<form class='{{cssClass}}' autocomplete='off'>
+  <header class='sheet-header'>
+    <img
+      class='profile-img'
+      src='{{item.img}}'
+      data-edit='img'
+      title='{{item.name}}'
+    />
+    <div class='header-fields'>
+      <h1 class='charname'><input
+          name='name'
+          type='text'
+          value='{{item.name}}'
+          placeholder='Name'
+        /></h1>
+    </div>
+  </header>
+
+  {{! Sheet Tab Navigation }}
+  <nav class='sheet-tabs tabs' data-group='primary'>
+    <a class='item' data-tab='description'>Description</a>
+    <a class='item' data-tab='action'>Action Config</a>
+    <a class='item' data-tab='effect'>Effect Config</a>
+  </nav>
+
+  {{! Sheet Body }}
+  <section class='sheet-body'>
+
+    {{! Description Tab }}
+    <div class='tab' data-group='primary' data-tab='description'>
+      <div class="grid grid-2col" style="min-height: 100%; height:fit-content">
+      {{! Editors must receive enriched text data from getData to properly handle rolls }}
+      <table><td><div>
+        <ul style="list-style: none;">
+          <li>Traits: <a class="new-trait"><i class='fas fa-plus'></i>New Trait</a></li>
+          <li><select name="system.t_main">{{selectOptions system.trait_list selected=system.t_main}}</select></li>{{#each system.trait as |i key|}}<li><input style="width:90%" type="text" name="system.trait.{{key}}" value="{{i}}"><a class="remove-trait" data-key="{{key}}"><i class='fas fa-trash'></i></a></li>{{/each}}
+          <br><li>Prerequisite: <input name="system.prerequisite", type="text", value="{{system.prerequisite}}"></li>
+          <br><li>Restriction: <input name="system.restriction", type="text", value="{{system.restriction}}"></li>
+        </ul>
+      </div></td></table>
+      <div class="editorboxformat">
+      {{editor
+        enrichedDescription
+        target='system.description'
+        engine='prosemirror'
+        button=true
+        editable=editable
+      }}</div>
+    </div></div>
+    <div class="tab action" data-group="primary" data-tab="action">
+      {{> 'systems/mandm/templates/item/parts/item-action-config.hbs'}}
+    </div>
+    <div class='tab' data-group='primary' data-tab='effect'>
+      {{> "systems/mandm/templates/item/parts/item-effects.hbs"}}
+    </div>
+      {{! As you add new fields, add them in here! }}
+  </section>
+</form>

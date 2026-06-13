@@ -1,0 +1,51 @@
+{{! This template is a fallback for when items don't have more specific templates. }}
+{{! Generally, you'll want to make more specific templates when possible. }}
+<form class='{{cssClass}}' autocomplete='off'>
+  <header class='sheet-header'>
+    <img
+      class='profile-img'
+      src='{{item.img}}'
+      data-edit='img'
+      title='{{item.name}}'
+    />
+    <div class='header-fields'>
+      <h1 class='charname'><input
+          name='name'
+          type='text'
+          value='{{item.name}}'
+          placeholder='Name'
+        /></h1>
+    </div>
+  </header>
+
+  {{! Sheet Tab Navigation }}
+  <nav class='sheet-tabs tabs' data-group='primary'>
+    <a class='item' data-tab='description'>Description</a>
+  </nav>
+
+  {{! Sheet Body }}
+  <section class='sheet-body'>
+
+    {{! Description Tab }}
+    <div class='tab grid grid-2col' style="min-height: 100%; height:fit-content" data-group='primary' data-tab='description'>
+      {{! Editors must receive enriched text data from getData to properly handle rolls }}
+      <ul style="list-style: none;">
+        <li>Ability Score Increase:</li>
+        <li>+2: <select name="system.asi">{{selectOptions system.scores selected=system.asi}}</select></li>
+        <li>+1: <select name="system.asi-second">{{selectOptions system.scores selected=system.asi-second}}</select></li>
+        <li>Proficiencies: <input type="text" name="system.profs" value="{{system.profs}}"></li>
+        <li class="editorboxformat">Equipment: {{editor system.equipment target="system.equipment" engine="prosemirror" button=true}}</li>
+        <li>Feat: <input type="text" name="system.feat" value="{{system.feat}}"></li>
+      </ul>
+      <div class="editorboxformat">
+      {{editor
+        enrichedDescription
+        target='system.description'
+        engine='prosemirror'
+        button=true
+        editable=editable
+      }}</div>
+      {{! As you add new fields, add them in here! }}
+    </div>
+  </section>
+</form>

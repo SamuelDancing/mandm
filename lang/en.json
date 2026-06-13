@@ -1,0 +1,24 @@
+{
+  "MANDM": {
+    "SheetLabels": {
+      "Actor": "Mages and Mansions Actor Sheet",
+      "Item": "Mages and Mansions Item Sheet"
+    }
+  },
+
+  "TYPES": {
+    "Actor": {
+      "actor": "Character",
+      "npc": "NPC"
+    },
+    "Item": {
+      "item": "Item",
+      "feat": "Feat",
+      "affliction": "Affliction",
+      "ancestry": "Ancestry",
+      "background": "Background",
+      "class": "Class",
+      "spell": "Spell"
+    }
+  }
+}
