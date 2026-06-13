@@ -14,7 +14,7 @@
   "version": "1.0",
   "url": "https://github.com/SamuelDancing/mandm",
   "manifest": "https://github.com/SamuelDancing/mandm/releases/latest/download/system.json",
-  "download": "",
+  "download": "https://github.com/SamuelDancing/mandm/releases/download/1.0/system.zip",
   "compatibility": {
     "minimum": 14,
     "verified": "14",
