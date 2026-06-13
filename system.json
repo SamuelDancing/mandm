@@ -12,6 +12,8 @@
   "readme": "README.md",
   "changelog": "CHANGELOG.md",
   "version": "1.0.0",
+  "manifest": "https://raw.githubusercontent.com/SamuelDancing/mandm/refs/heads/main/system.json?token=GHSAT0AAAAAAD6KV4OKXFKJLKAKFYD2F7N42RNX3AA",
+  "download": "https://github.com/SamuelDancing/mandm/archive/refs/heads/main.zip",
   "compatibility": {
     "minimum": 14,
     "verified": "14",
