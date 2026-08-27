@@ -1,10 +1,19 @@
 # Mages & Mansions: a Limitless System
 
-MAM:aLS was built on the Systemless Foundry VTT System. However, as the current and lone developer has other things to work on and develop, updates will be made when they're made.
+Mages & Mansions: a Limitless System (or MaM:aLS for short) is a d20-based system that blends D&D 5e's homebrew and combo friendly rules with Pathfinder 2e's modularity.
+
+MAM:aLS was built on the Systemless Foundry VTT System (https://foundryvtt.com/packages/systemless). However, as the current and lone developer has other things to work on and develop, updates will be made when they're made.
 
 MAM:aLS is a System designed to be limitless in capability, with rules that encourage taking risks to maximize rewards, without being overwhelming.
 
 Furthermore, instead of taking away a Player's ability to play, MAM:aLS puts the power of choice into the Player's hands, allowing them to decide exactly how they progress, and to remain engaged, even when rolling Death Saves.
+
+This System includes the Core Rules, and all the content required to utilize them.
+
+
+
+
+If you wish to support this System, the Core Rulse are also available for download on DriveThruRPG as a PDF (Pay What you Want, Min: $0)
 
 
 
