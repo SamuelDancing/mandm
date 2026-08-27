@@ -35,7 +35,7 @@
       <table><td><div>
         <ul style="list-style: none;">
           <li>Traits: <a class="new-trait"><i class='fas fa-plus'></i>New Trait</a></li>
-          <li><select name="system.t_main">{{selectOptions system.trait_list selected=system.t_main}}</select></li>{{#each system.trait as |i key|}}<li><input style="width:90%" type="text" name="system.trait.{{key}}" value="{{i}}"><a class="remove-trait" data-key="{{key}}"><i class='fas fa-trash'></i></a></li>{{/each}}
+          <li><select name="system.t_main">{{selectOptions item.system.trait_list selected=item.system.t_main}}</select></li>{{#each item.system.trait as |i key|}}<li><input style="width:90%" type="text" name="system.trait.{{key}}" value="{{i}}"><a class="remove-trait" data-key="{{key}}"><i class='fas fa-trash'></i></a></li>{{/each}}
           <br><li>Prerequisite: <input name="system.prerequisite", type="text", value="{{system.prerequisite}}"></li>
           <br><li>Restriction: <input name="system.restriction", type="text", value="{{system.restriction}}"></li>
         </ul>

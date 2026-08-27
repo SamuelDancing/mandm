@@ -101,7 +101,7 @@ export class MagesAndMansionsActor extends Actor {
   removeProf(key_to_remove) {
     //Cycle all Traits back by one, then delete the last empty trait.
     var index = key_to_remove;
-    var copy = Number(index) + 1
+    var copy = Number(index) + 1;
     while (index < (Object.keys(this.system.other_profs).length)-1) {
       copy = Number(index) + 1;
       this.system.other_profs[index] = this.system.other_profs[copy];
@@ -109,7 +109,6 @@ export class MagesAndMansionsActor extends Actor {
     };
     const updel = "system.other_profs.-="+index;
     this.update({[updel]: null});
-//    this.update();
   }
 
   addSense(key, value) {
@@ -155,7 +154,11 @@ export class MagesAndMansionsActor extends Actor {
     const systemData = actorData.system;
     const flags = actorData.flags.systemless || {};
 
-    systemData.size_sel = {"-3":"Miniscule", "-2":"Tiny", "-1":"Small", "0":"Medium", "1":"Large", "2":"Huge", "3":"Gargantuan", "4":"Colossal"}
+    systemData.role_types = {"Bruiser":"Bruiser", "Skirmisher":"Skirmisher", "Tank":"Tank", "Trapper":"Trapper", "Caster":"Spellcaster", "Spotter":"Spotter", "Healer":"Healer", "Buffer":"Buffer", "Debuffer":"Debuffer"};
+    systemData.type_choice = {"None":"None", "Abberation":"Abberation", "Beast":"Beast", "Celestial":"Celestial", "Construct":"Construct", "Dragon":"Dragon", "Elemental":"Elemental", "Fey":"Fey", "Fiend":"Fiend", "Humanoid":"Humanoid", "Plant":"Plant", "Undead":"Undead"};
+    systemData.adv_choice = {"dis":"Disadvantage", "norm":"Normal", "adv":"Advantage"};
+    systemData.VRIC = {"Resistance":"Resistance", "Immunity":"Immunity", "Vulnerability":"Vulnerability"}
+    systemData.size_sel = {"-3":"Miniscule", "-2":"Tiny", "-1":"Small", "0":"Medium", "1":"Large", "2":"Huge", "3":"Gargantuan", "4":"Colossal"};
     if (systemData.size === "Miniscule") {
       systemData.size = -3;
     }
@@ -231,7 +234,7 @@ export class MagesAndMansionsActor extends Actor {
     systemData.shb = systemData.wis_mod;
     systemData.weight = systemData.str * 4;    
     systemData.carrying = 0;
-    systemData.action_up = Math.max(1,systemData.con_mod) + systemData.action_mod;
+    systemData.action_up = 0;
     systemData.resource_mult = 1;
     systemData.slot_calc = Math.max(systemData.cha_mod, systemData.pb);
 
@@ -263,6 +266,13 @@ export class MagesAndMansionsActor extends Actor {
       if (ancestry.system.type3 !== "None") {
         systemData.types[2] = ancestry.system.type3;
       }}}}
+
+    systemData.actions.max = 0
+
+    // Make separate methods for each Actor type (character, npc, etc.) to keep
+    // things organized.
+    this._prepareActorData(actorData);
+    this._prepareNpcData(actorData);
   }
 
   /**
@@ -279,19 +289,17 @@ export class MagesAndMansionsActor extends Actor {
     const actorData = this;
     const systemData = actorData.system;
 
-    // Make separate methods for each Actor type (character, npc, etc.) to keep
-    // things organized.
-    this._prepareActorData(actorData);
-    this._prepareNpcData(actorData);
-
     //Clamp Size Values
-    if (systemData.size > 5) {
-      systemData.size = 5;
+    if (systemData.size > 4) {
+      systemData.size = 4;
     }
     else if (systemData.size < -3) {
       systemData.size = -3;
     }
     
+
+    systemData.actions.max = Math.max(systemData.action_up, systemData.speed.land, systemData.speed.swim, systemData.speed.burrow, systemData.speed.climb, systemData.speed.fly/2) + systemData.actions.max;
+
     //Size based value changes, which will reflect properly, thanks to some later code.
     systemData.sab += -2*systemData.size;
     systemData.str_mod += 2*systemData.size;
@@ -300,10 +308,6 @@ export class MagesAndMansionsActor extends Actor {
     systemData.dex_mod += -2*systemData.size;
     systemData.weight = systemData.weight * 4**(systemData.size);
     systemData.size_multi = 2**systemData.size;
-
-    if (actorData.type === 'npc') {
-      systemData.hp.max = Math.ceil(systemData.hp.max*systemData.size_multi);
-    }
 
     if (systemData.size == -3) {
       systemData.size_dis = "Miniscule";
@@ -367,8 +371,6 @@ export class MagesAndMansionsActor extends Actor {
       let x = (Math.trunc(systemData.con/2)-5) - (Math.trunc(systemData.abilities.con_base/2)-5);
       systemData.con_mod += x;
       systemData.con_save += x;
-      this._prepareActorData(actorData);
-      this._prepareNpcData(actorData);
     }
     if (systemData.con_mod != (Math.trunc(systemData.con/2)-5)) {
       let x = systemData.con_mod - (Math.trunc(systemData.con/2)-5)
@@ -513,6 +515,12 @@ export class MagesAndMansionsActor extends Actor {
     systemData.wis_dis = systemData.wis_mod + systemData.skill_mod;
     systemData.cha_dis = systemData.cha_mod + systemData.skill_mod;
 
+    //Set some Minimum values
+    systemData.sdb = Math.max(systemData.sdb, 0);
+    systemData.shb = Math.max(systemData.shb, 0);
+
+    this._prepareActiveCalcs(actorData);
+
     //Prepare the display text for Resistances, Vulnerabilities and Immunities.
     systemData.res_dis = "";
     for (const i in systemData.resistance) {
@@ -546,6 +554,72 @@ export class MagesAndMansionsActor extends Actor {
   }
 
   /**
+   * Post-ActiveEffect Sets
+   */
+  _prepareActiveCalcs(actorData) {
+    const systemData = actorData.system;
+
+    if (actorData.type === 'actor') {
+      const class_name = this.items.find(i => i.type === "class");
+      if (class_name) {
+
+      //Chain of else ifs to apply the right Ability Score to Actions/Round 
+      if (class_name.system.cam1 === "Strength") {systemData.casi1 = Number(systemData.str_mod) - 2*systemData.size;}
+      else if (class_name.system.cam1 === "Dexterity") {systemData.casi1 = Number(systemData.dex_mod) + 2*systemData.size;}
+      else if (class_name.system.cam1 === "Constitution") {systemData.casi1 = Number(systemData.con_mod);}
+      else if (class_name.system.cam1 === "Intelligence") {systemData.casi1 = Number(systemData.int_mod);}
+      else if (class_name.system.cam1 === "Wisdom") {systemData.casi1 = Number(systemData.wis_mod);}
+      else if (class_name.system.cam1 === "Charisma") {systemData.casi1 = Number(systemData.cha_mod);}
+      else {systemData.casi1 = -10}
+
+      if (class_name.system.cam2 === "Strength") {systemData.casi2 = Number(systemData.str_mod) - 2*systemData.size;}
+      else if (class_name.system.cam2 === "Dexterity") {systemData.casi2 = Number(systemData.dex_mod) + 2*systemData.size;}
+      else if (class_name.system.cam2 === "Constitution") {systemData.casi2 = Number(systemData.con_mod);}
+      else if (class_name.system.cam2 === "Intelligence") {systemData.casi2 = Number(systemData.int_mod);}
+      else if (class_name.system.cam2 === "Wisdom") {systemData.casi2 = Number(systemData.wis_mod);}
+      else if (class_name.system.cam2 === "Charisma") {systemData.casi2 = Number(systemData.cha_mod);}
+      else {systemData.casi2 = -10}
+
+      if (class_name.system.both_scores) {
+        systemData.action_up = Math.max(1,systemData.con_mod+systemData.casi1+systemData.casi2) + systemData.action_mod;
+      }
+      else {
+        systemData.action_up = Math.max(1,systemData.con_mod+systemData.casi1,systemData.con_mod+systemData.casi2) + systemData.action_mod;}
+
+      }
+      else {
+        systemData.casi1 = -10,
+        systemData.casi2 = -10
+        systemData.action_up = 0
+      }
+
+      systemData.hp.max = (Math.max(0, systemData.con_mod)*systemData.level+systemData.hp.rolled+systemData.hit_die.type+systemData.hp.base+systemData.hp_mod);
+      systemData.resource.primary.max = systemData.level * systemData.resource_mult;
+    }
+
+    else if (actorData.type === 'npc') {
+      systemData.action_up = systemData.action_base + systemData.action_mod;
+      systemData.hp.max = Math.ceil(Math.ceil(((systemData.con_mod+(systemData.hit_die.type+1)/2)*systemData.level))*systemData.size_multi)+systemData.hp_mod;
+    }
+
+    for (let i of actorData.appliedEffects) {
+      for (let v of i.changes) {
+        if (v.type == "override" && v.key == "system.action_up") {
+        systemData.action_up = v.value;
+        }
+      }
+    }
+
+    for (let i of actorData.appliedEffects) {
+      for (let v of i.changes) {
+        if (v.type == "override" && v.key == "system.hp.max") {
+        systemData.hp.max = v.value;
+        }
+      }
+    }
+  }
+
+  /**
    * Prepare Character type specific data
    */
   _prepareActorData(actorData) {
@@ -562,12 +636,11 @@ export class MagesAndMansionsActor extends Actor {
       if (x === "Small") {systemData.size += -1;}
       else if (x === "Tiny") {systemData.size += -2;}
       else if (x === "Miniscule") {systemData.size += -3;}
-      else if (x === "Large") {systemData.size += 2;}
-      else if (x === "Huge") {systemData.size += 3;}
-      else if (x === "Gargantuan") {systemData.size += 4;}
-      else if (x === "Colossal") {systemData.size += 5;}
+      else if (x === "Large") {systemData.size += 1;}
+      else if (x === "Huge") {systemData.size += 2;}
+      else if (x === "Gargantuan") {systemData.size += 3;}
+      else if (x === "Colossal") {systemData.size += 4;}
       else {x = 0;}
-
       systemData.ancestry = ancestry.name;
     }
     else {
@@ -580,61 +653,16 @@ export class MagesAndMansionsActor extends Actor {
     if (class_name) {
       systemData.class = class_name.name;
       systemData.hit_die.type = Number(class_name.system.hit_die);
-
-      //Chain of else ifs to apply the right Ability Score to Actions/Round 
-      if (class_name.system.cam1 === "Strength") {
-        systemData.casi1 = Number(systemData.str_mod);
-      }
-      else if (class_name.system.cam1 === "Dexterity") {
-        systemData.casi1 = Number(systemData.dex_mod);
-      }
-      else if (class_name.system.cam1 === "Constitution") {
-        systemData.casi1 = Number(systemData.con_mod);
-      }
-      else if (class_name.system.cam1 === "Intelligence") {
-        systemData.casi1 = Number(systemData.int_mod);
-      }
-      else if (class_name.system.cam1 === "Wisdom") {
-        systemData.casi1 = Number(systemData.wis_mod);
-      }
-      else if (class_name.system.cam1 === "Charisma") {
-        systemData.casi1 = Number(systemData.cha_mod);
-      }
-      else {systemData.casi1 = 0}
-      if (class_name.system.cam2 === "Strength") {
-        systemData.casi2 = Number(systemData.str_mod);
-      }
-      else if (class_name.system.cam2 === "Dexterity") {
-        systemData.casi2 = Number(systemData.dex_mod);
-      }
-      else if (class_name.system.cam2 === "Constitution") {
-        systemData.casi2 = Number(systemData.con_mod);
-      }
-      else if (class_name.system.cam2 === "Intelligence") {
-        systemData.casi2 = Number(systemData.int_mod);
-      }
-      else if (class_name.system.cam2 === "Wisdom") {
-        systemData.casi2 = Number(systemData.wis_mod);
-      }
-      else if (class_name.system.cam2 === "Charisma") {
-        systemData.casi2 = Number(systemData.cha_mod);
-      }
-      else {systemData.casi2 = 0}
-      if (class_name.system.both_scores) {
-        systemData.action_up = Math.max(1,systemData.con_mod+systemData.casi1+systemData.casi2) + systemData.action_mod;
-      }
-      else {
-        systemData.action_up = Math.max(1,systemData.con_mod+systemData.casi1,systemData.con_mod+systemData.casi2) + systemData.action_mod;}
       systemData.resource.primary.name = class_name.system.resource_name;
 
-      // Remove empty Resource Types
+      // Remove empty Resource Types (BROKEN)
       for (let i in systemData.resource) {
-        if (!systemData.resource[i].name) {
-          const remove = 'system.resource.-='+i;
-          this.update({[remove]: null})
+        if (systemData.resource[i].name == '') {
+//          const remove = 'system.resource.-='+i;
+//          this.update({[remove]: null})
+            console.log(systemData.resource[i].name)
         }
       }
-
     }
     else {
       systemData.class = "None";
@@ -649,8 +677,7 @@ export class MagesAndMansionsActor extends Actor {
       systemData.background = "None";
     }
 
-    systemData.hp.max = Math.max(0, systemData.con_mod)*systemData.level+systemData.hp.rolled+systemData.hit_die.type+systemData.hp.base;
-    systemData.resource.primary.max = systemData.level * systemData.resource_mult;
+    
 
     //Iterate through Items, and add their cumulative weight to your Character, in addition to coin weight.
     systemData.carrying = (systemData.money.cp + systemData.money.sp + systemData.money.gp + systemData.money.pp)*0.02
@@ -658,8 +685,6 @@ export class MagesAndMansionsActor extends Actor {
     for (let i in itemData) {
       systemData.carrying = Number(systemData.carrying) + Number(itemData[i].system.weight)*Number(itemData[i].system.quantity)
     }
-
-    systemData.actions.max = Math.max(systemData.action_up, systemData.speed.land, systemData.speed.swim, systemData.speed.burrow, systemData.speed.climb, systemData.speed.fly/2);
   }
 
     _prepareNpcData(actorData) {
@@ -670,15 +695,15 @@ export class MagesAndMansionsActor extends Actor {
     // Set the correct Hit Die based on the Creature's Role in Combat. Also set Action Recovery while we're at it.
     if (systemData.role == "Bruiser") {
       systemData.hit_die.type = 10;
-      systemData.action_up = Math.max(1,systemData.con_mod+systemData.str_mod) + systemData.action_mod;
+      systemData.action_base = Math.max(1,systemData.con_mod+systemData.str_mod);
     }
     else if (systemData.role == "Tank") {
       systemData.hit_die.type = 12;
-      systemData.action_up = Math.max(1,systemData.con_mod+systemData.con_mod) + systemData.action_mod;
+      systemData.action_base = Math.max(1,systemData.con_mod+systemData.con_mod);
     }
     else if (systemData.role == "Trapper" || systemData.role == "Caster") {
       systemData.hit_die.type = 6;
-      systemData.action_up = Math.max(1,systemData.con_mod+systemData.int_mod) + systemData.action_mod;
+      systemData.action_base = Math.max(1,systemData.con_mod+systemData.int_mod);
     }
     else {
       systemData.hit_die.type = 8;
@@ -686,13 +711,13 @@ export class MagesAndMansionsActor extends Actor {
 
     // Check the rest of the Roles to see what Action Recovery should be based on.
     if (systemData.role == "Skirmisher") {
-      systemData.action_up = Math.max(1,systemData.con_mod+systemData.dex_mod) + systemData.action_mod;
+      systemData.action_base = Math.max(1,systemData.con_mod+systemData.dex_mod);
     }
     if (systemData.role == "Healer" || systemData.role == "Spotter") {
-      systemData.action_up = Math.max(1,systemData.con_mod+systemData.wis_mod) + systemData.action_mod;
+      systemData.action_base = Math.max(1,systemData.con_mod+systemData.wis_mod);
     }
     if (systemData.role == "Buffer" || systemData.role == "Debuffer") {
-      systemData.action_up = Math.max(1,systemData.con_mod+systemData.cha_mod) + systemData.action_mod;
+      systemData.action_base = Math.max(1,systemData.con_mod+systemData.cha_mod);
     }
 
     //Add manual types to actual types
@@ -732,9 +757,6 @@ export class MagesAndMansionsActor extends Actor {
     };
 
     //Put the values that are dependant on these last, to avoid delays in value updates.
-    systemData.hp.max = Math.ceil((systemData.con_mod+(systemData.hit_die.type+1)/2)*systemData.level);
     systemData.hp_con_boost = systemData.con_mod*systemData.level;
-
-    systemData.actions.max = Math.max(systemData.action_up, systemData.speed.land, systemData.speed.swim, systemData.speed.burrow, systemData.speed.climb, systemData.speed.fly/2);
   }
 }

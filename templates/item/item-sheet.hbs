@@ -32,11 +32,11 @@
     <div class='tab' data-group='primary' data-tab='description'>
       <div class="grid grid-2col" style="min-height: 100%; height:fit-content">
       <ul style="list-style: none;">
-        <li>Traits: <a class="new-trait"><i class='fas fa-plus'></i>New Trait</a></li>{{#each system.trait as |i key|}}<li><input style="width:90%" type="text" name="system.trait.{{key}}" value="{{i}}"><a class="remove-trait" data-key="{{key}}"><i class='fas fa-trash'></i></a></li>{{/each}}
-        <li>Quantity: {{numberInput system.quantity class="numberInput" name="system.quantity"}}</li>
-        <li>Weight (lbs): {{numberInput system.weight class="numberInput" name="system.weight"}}</li>
-        <li>Cost (GP): {{numberInput system.value class="numberInput" name="system.value"}}</li>
-        <li>Complexity: {{numberInput system.complexity class="numberInput" name="system.complexity"}}</li>
+        <li>Traits: <a class="new-trait"><i class='fas fa-plus'></i>New Trait</a></li>{{#each item.system.trait as |i key|}}<li><input style="width:90%" type="text" name="system.trait.{{key}}" value="{{i}}"><a class="remove-trait" data-key="{{key}}"><i class='fas fa-trash'></i></a></li>{{/each}}
+        <li>Quantity: {{numberInput item.system.quantity class="numberInput" name="system.quantity"}}</li>
+        <li>Weight (lbs): {{numberInput item.system.weight class="numberInput" name="system.weight"}}</li>
+        <li>Cost (GP): {{numberInput item.system.value class="numberInput" name="system.value"}}</li>
+        <li>Complexity: {{numberInput item.system.complexity class="numberInput" name="system.complexity"}}</li>
         <li>Material: <input type="text" name="system.material" value="{{system.material}}"></li>
       </ul>
       <div class="editorboxformat">

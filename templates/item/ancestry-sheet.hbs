@@ -31,13 +31,13 @@
       {{! Editors must receive enriched text data from getData to properly handle rolls }}
       <ul style="list-style: none;">
         <li>Ability Score Increase: <input type="text" name="system.asi" value="{{system.asi}}"></li>
-        <li>Base HP: <select name="system.base_hp">{{selectOptions system.hp-choice selected=system.base_hp}}</select></li>
-        <li>Movement Speed: {{numberInput system.speed class="numberInput" name="system.speed"}} ft.</li>
-        <li>Size: <select name="system.size">{{selectOptions system.size-choice selected=system.size}}</select></li>
+        <li>Base HP: <select name="system.base_hp">{{selectOptions item.system.hp_choice selected=item.system.base_hp}}</select></li>
+        <li>Movement Speed: {{numberInput item.system.speed class="numberInput" name="system.speed"}} ft.</li>
+        <li>Size: <select name="system.size">{{selectOptions item.system.size_choice selected=item.system.size}}</select></li>
         <li>Creature Type(s):</li>
-        <li><select name="system.type1">{{selectOptions system.type-choice selected=system.type1}}</select></li>
-        <li><select name="system.type2">{{selectOptions system.type-choice selected=system.type2}}</select></li>
-        <li><select name="system.type3">{{selectOptions system.type-choice selected=system.type3}}</select></li>
+        <li><select name="system.type1">{{selectOptions item.system.type_choice selected=item.system.type1}}</select></li>
+        <li><select name="system.type2">{{selectOptions item.system.type_choice selected=item.system.type2}}</select></li>
+        <li><select name="system.type3">{{selectOptions item.system.type_choice selected=item.system.type3}}</select></li>
         <li>Languages: <input type="text" name="system.languages", value="{{system.languages}}"></li>
       </ul>
       <div class="editorboxformat">

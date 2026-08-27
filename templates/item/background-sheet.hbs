@@ -31,10 +31,10 @@
       {{! Editors must receive enriched text data from getData to properly handle rolls }}
       <ul style="list-style: none;">
         <li>Ability Score Increase:</li>
-        <li>+2: <select name="system.asi">{{selectOptions system.scores selected=system.asi}}</select></li>
-        <li>+1: <select name="system.asi-second">{{selectOptions system.scores selected=system.asi-second}}</select></li>
+        <li>+2: <select name="system.asi">{{selectOptions item.system.scores selected=item.system.asi}}</select></li>
+        <li>+1: <select name="system.asi_second">{{selectOptions item.system.scores selected=item.system.asi_second}}</select></li>
         <li>Proficiencies: <input type="text" name="system.profs" value="{{system.profs}}"></li>
-        <li class="editorboxformat">Equipment: {{editor system.equipment target="system.equipment" engine="prosemirror" button=true}}</li>
+        <li class="editorboxformat">Equipment: {{editor item.system.equipment target="system.equipment" engine="prosemirror" button=true}}</li>
         <li>Feat: <input type="text" name="system.feat" value="{{system.feat}}"></li>
       </ul>
       <div class="editorboxformat">

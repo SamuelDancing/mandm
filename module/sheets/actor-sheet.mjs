@@ -36,7 +36,7 @@ export class MagesAndMansionsActorSheet extends ActorSheet {
     const context = super.getData();
 
     // Use a safe clone of the actor data for further operations.
-    const actorData = this.document.toObject(false);
+    const actorData = this.document.toObject();
 
     // Add the actor's data to context.data for easier access, as well as flags.
     context.system = actorData.system;
@@ -99,7 +99,7 @@ export class MagesAndMansionsActorSheet extends ActorSheet {
     const effects = context.effects;
 
     // Iterate through items, allocating to containers
-    for (let i of context.items) {
+    for (let i of context.actor.items) {
       i.img = i.img || Item.DEFAULT_ICON;
       //Check to see if it's an Action. If the Actor is also an NPC, block the item from wherever else it would go.
       if (!(["", " "].includes(i.system.roll)) || i.system.force_display){
@@ -320,21 +320,23 @@ export class MagesAndMansionsActorSheet extends ActorSheet {
     const header = event.currentTarget;
     // Get the type of item to create.
     const type = header.dataset.type;
-    // Grab any data associated with this control.
-    const data = duplicate(header.dataset);
+    // Get default system data for this item type  
+  const itemShell = new Item.implementation({ name: "Temp", type: type });  
+  const data = foundry.utils.deepClone(itemShell.toObject().system);
     // Initialize a default name.
     const name = `New ${type.capitalize()}`;
     // Prepare the item object.
     const itemData = {
       name: name,
       type: type,
-      system: data,
+      system: data
+//      system: {}
     };
     // Remove the type from the dataset since it's in the itemData.type prop.
     delete itemData.system['type'];
 
     // Finally, create the item!
-    return await Item.create(itemData, { parent: this.actor });
+    return await Item.implementation.create(itemData, { parent: this.actor });
   };
 
   /**

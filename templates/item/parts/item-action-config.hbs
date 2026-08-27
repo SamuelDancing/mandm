@@ -1,35 +1,35 @@
 <ul style="list-style: none;">
     <li>Roll Type:
       <select name="system.roll">
-        {{selectOptions system.active_options selected=system.roll}}
-      </select> <span title="Simply forces this Item to show up as an Action.">Force Display: <input type="checkbox" name="system.force_display" {{checked system.force_display}}></span></li>
-    <li>Actions: {{numberInput system.actions class="numberInput" name="system.actions"}}   Duration: <input type="text" name="system.duration", value="{{system.duration}}", style="width: 45%;"></li>
+        {{selectOptions item.system.active_options selected=system.roll}}
+      </select> <span title="Simply forces this Item to show up as an Action.">Force Display: <input type="checkbox" name="system.force_display" {{checked item.system.force_display}}></span></li>
+    <li>Actions: {{numberInput item.system.actions class="numberInput" name="system.actions"}}   Duration: <input type="text" name="system.duration", value="{{system.duration}}", style="width: 45%;"></li>
     <li>Resource Cost: <input style="width: 70%;" name="system.resource_cost", type="text", value="{{system.resource_cost}}"></li>
     <li>Trigger: <input style="width: 80%;" type="text" name="system.trigger", value="{{system.trigger}}"></li>
     <li>Roll Mod: <input name="system.roll_mod", type="text", value="{{system.roll_mod}}"></li>
     <li>DC Source: 
       <select name="system.save_source">
-        {{selectOptions system.save_options selected=system.save_source}}
+        {{selectOptions item.system.save_options selected=system.save_source}}
       </select>
     </li>
     <li>Save Target: 
       <select name="system.save_target">
-        {{selectOptions system.target_options selected=system.save_target}}
+        {{selectOptions item.system.target_options selected=system.save_target}}
       </select></li>
     <li>Custom DC: <input name="system.custom_dc", type="text", value="{{system.custom_dc}}"></li>
       <br>
     <li title="Use @<attribute> to reference different values, and [<type>] to describe Damage Types. Common values: @wdb, @wfdb, @sdb, @shb">Damage/Healing Formulas <a class="new-dmg"><i class='fas fa-plus'></i>New Formula</a>
-      {{#each system.damage as |formula id|}}
+      {{#each item.system.damage as |formula id|}}
       </li><input name="system.damage.{{id}}", type="text", value="{{formula}}" style="width: 85%;"><a class="remove-dmg" data-key="{{id}}"><i class='fas fa-minus'></i>Remove</a><li>
       {{/each}}</li>
       <br>
     <li>Crit Formulas <a class="new-crit"><i class='fas fa-plus'></i>New Crit</a>
-      {{#each system.crit as |formula id|}}
+      {{#each item.system.crit as |formula id|}}
       </li><input name="system.crit.{{id}}", type="text", value="{{formula}}" style="width: 85%;"><a class="remove-crit" data-key="{{id}}"><i class='fas fa-minus'></i>Remove</a><li> 
       {{/each}}
     </li>
     <br><br>
     <li>Range: <input type="text" name="system.range", value="{{system.range}}"></li>
     <li>Target(s): <input type="text" name="system.target", value="{{system.target}}"></li>
-    <li class="editorboxformat">Roll Description: {{editor system.roll_desc target="system.roll_desc" engine="prosemirror" button=true}}</li>
+    <li class="editorboxformat">Roll Description: {{editor item.system.roll_desc target="system.roll_desc" engine="prosemirror" button=true}}</li>
 </ul>

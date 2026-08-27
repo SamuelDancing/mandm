@@ -35,8 +35,8 @@
       </div>
           </a>
       <div class="item-count align-center"><p>{{item.system.quantity}}</p></div>
-      <div class="item-weight align-center"><p>{{item.system.weight}} ({{item.system.weight_sum}}) lbs</p></div>
-      <div class="item-value align-center"><p>{{item.system.value}} ({{item.system.value_sum}}) GP</p></div>
+      <div class="item-weight align-center"><p>{{item.system.weight}} ({{numberFormat item.system.weight_sum}}) lbs</p></div>
+      <div class="item-value align-center"><p>{{item.system.value}} ({{numberFormat item.system.value_sum}}) GP</p></div>
       <div class='item-controls'>
         <!--
         <a

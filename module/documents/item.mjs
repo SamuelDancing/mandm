@@ -16,6 +16,17 @@ export class MagesAndMansionsItem extends Item {
     }
     systemData.weight_sum = Math.round(systemData.weight * systemData.quantity * 100)/100;
     systemData.value_sum = Math.round(systemData.value * systemData.quantity * 100)/100;
+    systemData.trait_list = ["Edge", "Burn", "Blast", "Bleed", "Utility", "Boon"]
+    systemData.active_options = {" ":"None", "watt":"Weapon Attack", "satt":"Spell Attack", "save":"Saving Throw", "damage":"Direct Damage/Heal"}
+    systemData.save_options = {"ssdc":"Spell Save DC", "str":"Strength", "dex":"Dexterity", "con":"Constitution", "int":"Intelligence", "wis":"Wisdom", "cha":"Charisma", "custom": "Custom"}
+    systemData.target_options = {"str":"Strength", "dex":"Dexterity", "con":"Constitution", "int":"Intelligence", "wis":"Wisdom", "cha":"Charisma"}
+    systemData.hit_die_choice = {"4":"d4", "6":"d6", "8":"d8", "10":"d10", "12":"d12"}
+    systemData.hp_choice = {"4":"4", "6":"6", "8":"8", "10":"10", "12":"12"}
+    systemData.size_choice = {"Miniscule":"Miniscule", "Tiny":"Tiny", "Small":"Small", "Medium":"Medium", "Large":"Large", "Huge":"Huge", "Gargantuan":"Gargantuan", "Colossal":"Colossal"}
+    systemData.type_choice = {"None":"None", "Abberation":"Abberation", "Beast":"Beast", "Celestial":"Celestial", "Construct":"Construct", "Dragon":"Dragon", "Elemental":"Elemental", "Fey":"Fey", "Fiend":"Fiend", "Humanoid":"Humanoid", "Plant":"Plant", "Undead":"Undead"}
+    systemData.scores = {"Strength":"Strength", "Dexterity":"Dexterity", "Constitution":"Constitution", "Intelligence":"Intelligence", "Wisdom":"Wisdom", "Charisma":"Charisma", "None":"None"}
+    systemData.schools = {"Abjuration":"Abjuration", "Conjuration":"Conjuration", "Divination":"Divination", "Enchantment":"Enchantment", "Evocation":"Evocation", "Illusion":"Illusion", "Necromancy":"Necromancy", "Transmutation":"Transmutation"}
+    systemData.tiers = {"Cantrip":"Cantrip", "1st":"1st", "2nd":"2nd", "3rd":"3rd", "4th":"4th", "5th":"5th", "6th":"6th", "7th":"7th", "8th":"8th", "9th":"9th", "10th":"10th"}
   }
 
   addToTraits(key, value) {

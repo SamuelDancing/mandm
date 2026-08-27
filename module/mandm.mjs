@@ -7,12 +7,28 @@ import { MagesAndMansionsItemSheet } from './sheets/item-sheet.mjs';
 // Import helper/utility classes and constants.
 import { preloadHandlebarsTemplates } from './helpers/templates.mjs';
 import { MANDM } from './helpers/config.mjs';
+import { PlayerActorData, NPCActorData } from './documents/actor-data.mjs';
+import { ItemData, ClassData, AncestryData, BackgroundData, SpellData, FeatData, AfflictionData } from './documents/item-data.mjs'
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
 /* -------------------------------------------- */
 
-Hooks.once('init', function () {
+Hooks.once('init', () => {
+
+  Object.assign(CONFIG.Actor.dataModels, {
+    actor: PlayerActorData,
+    npc: NPCActorData
+  })
+  Object.assign(CONFIG.Item.dataModels, {
+    item: ItemData,
+    class: ClassData,
+    ancestry: AncestryData,
+    background: BackgroundData,
+    spell: SpellData,
+    feat: FeatData,
+    affliction: AfflictionData
+  })
   // Add utility classes to the global game object so that they're more easily
   // accessible in global contexts.
   game.mandm = {
@@ -43,6 +59,9 @@ Hooks.once('init', function () {
     formula: '@actions.value',
     decimals: 2,
   };
+
+//  CONFIG.Actor.dataModels.actor = PlayerActorData;
+//  CONFIG.Actor.dataModels.npc = NPCActorData;
 
   // Define custom Document classes
   CONFIG.Actor.documentClass = MagesAndMansionsActor;
