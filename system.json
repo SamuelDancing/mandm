@@ -11,10 +11,10 @@
   "license": "LICENSE.txt",
   "readme": "README.md",
   "changelog": "CHANGELOG.md",
-  "version": "1.1",
+  "version": "1.1.1",
   "url": "https://github.com/SamuelDancing/mandm",
   "manifest": "https://raw.githubusercontent.com/SamuelDancing/mandm/main/system.json",
-  "download": "https://github.com/SamuelDancing/mandm/archive/refs/tags/1.1.zip",
+  "download": "https://github.com/SamuelDancing/mandm/archive/refs/tags/1.1.1.zip",
   "compatibility": {
     "minimum": 14,
     "verified": "14",
@@ -30,6 +30,13 @@
     }
   ],
   "packs": [
+    {
+      "name": "core-rules",
+      "label": "Core Rules",
+      "system": "mandm",
+      "path": "packs/core-rules",
+      "type": "JournalEntry"
+    },
     {
       "name": "ancestries",
       "label": "Ancestries",
@@ -107,6 +114,8 @@
       "color": "#d28cf3",
       "sorting": "m",
       "packs": [
+        "core-rules",
+        "monsters",
         "ancestries",
         "backgrounds",
         "classes",
@@ -114,7 +123,6 @@
         "items",
         "spells",
         "monsterfeats",
-        "monsters",
         "afflictionsconditions",
         "commontables"
       ]
