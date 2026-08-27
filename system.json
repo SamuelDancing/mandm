@@ -218,7 +218,7 @@
           },
           "sense": {},
           "size": 0,
-          "types": [],
+          "types": {},
           "abilities": {
             "str_base": 10,
             "dex_base": 10,
