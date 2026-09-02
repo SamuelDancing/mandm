@@ -330,7 +330,7 @@ export class MagesAndMansionsActor extends Actor {
     else if (systemData.size == 3) {
       systemData.size_dis = "Gargantuan";
     }
-    else if (systemData.size === "Colossal") {
+    else if (systemData.size == 4) {
       systemData.size_dis = "Colossal";
     }
 
