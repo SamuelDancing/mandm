@@ -103,7 +103,10 @@ export class MagesAndMansionsActorSheet extends ActorSheet {
       i.img = i.img || Item.DEFAULT_ICON;
       //Check to see if it's an Action. If the Actor is also an NPC, block the item from wherever else it would go.
       if (!(["", " "].includes(i.system.roll)) || i.system.force_display){
-        actions.push(i);
+        if (this.document.type != "npc" && i.type === 'spell' && i.system.prepared == "No") {}
+        else {
+          actions.push(i);
+        }
       } 
       if (this.document.type != "npc") {
         // Append to gear.

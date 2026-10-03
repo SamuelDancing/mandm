@@ -25,6 +25,9 @@
         <p style="margin: 0px;">Occult: <input type="checkbox" name="system.lists.occult" {{checked item.system.lists.occult}}></p>
         <p style="margin: 0px;">Primal: <input type="checkbox" name="system.lists.primal" {{checked item.system.lists.primal}}></p></div></div>
     </div>
+    <div class="align-center">
+    Prepped: <select name="system.prepared" style="width: 85%;">{{selectOptions item.system.prep_options selected=item.system.prepared}}</select>
+    </div>
 
   {{! Sheet Tab Navigation }}
   <nav class='sheet-tabs tabs' data-group='primary'>
@@ -42,7 +45,7 @@
       {{! Editors must receive enriched text data from getData to properly handle rolls }}
       <ul style="list-style: none;">
           <li>Traits: <a class="new-trait"><i class='fas fa-plus'></i>New Trait</a></li>
-          <li><select name="system.t_main">{{selectOptions item.system.trait_list selected=item.system.t_main}}</select></li>
+          <li><select name="system.t_main">{{selectOptions item.system.trait_list2 selected=item.system.t_main}}</select></li>
           {{#each item.system.trait as |i key|}}<li><input style="width:90%" type="text" name="system.trait.{{key}}" value="{{i}}"><a class="remove-trait" data-key="{{key}}"><i class='fas fa-trash'></i></a></li>{{/each}}
           <li>Verbal: <input type="checkbox" name="system.components.v" {{checked item.system.components.v}}></li>
           <li>Somatic: <input type="checkbox" name="system.components.s" {{checked item.system.components.s}}></li>
